@@ -2,6 +2,8 @@
 
 namespace Phase2\ComposerAnalytics\Parser;
 
+use Phase2\ComposerAnalytics\Patch\Patch;
+
 class Json implements ParserInterface
 {
     /**
@@ -13,7 +15,12 @@ class Json implements ParserInterface
         $contents = json_decode($file);
 
         if (isset($contents->extra->patches)) {
-            return (array) $contents->extra->patches;
+            foreach ($contents->extra->patches as $project => $patches) {
+                var_dump($patches);
+                foreach ($patches as $description => $uri) {
+                    $found_patches[] = new Patch($project, $uri, $description);
+                }
+            }
         }
 
         return $found_patches;

@@ -2,6 +2,8 @@
 
 namespace Phase2\ComposerAnalytics\Parser;
 
+use Phase2\ComposerAnalytics\Patch\PatchInterface;
+
 interface ParserInterface
 {
     /**
@@ -9,7 +11,7 @@ interface ParserInterface
      *
      * @param string $file
      *
-     * @return array
+     * @return PatchInterface[]
      */
     public function findPatches($file);
 }
