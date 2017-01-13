@@ -48,11 +48,17 @@ class AnalyzeCommand extends Command
         $parser = $parser_factory->get($type);
 
         $directory = realpath($input->getArgument('directory'));
-        $output->writeln(sprintf('<info>Scanning for %s files in %s.</info>', $type, $directory), OutputInterface::VERBOSITY_VERBOSE);
+        $output->writeln(
+            sprintf('<info>Scanning for %s files in %s.</info>', $type, $directory),
+            OutputInterface::VERBOSITY_VERBOSE
+        );
         foreach ($finder->in($directory) as $file) {
-            $output->writeln(sprintf('<info>Found %s file.</info>', $file->getRealPath()), OutputInterface::VERBOSITY_VERBOSE);
+            $output->writeln(
+                sprintf('<info>Found %s file.</info>', $file->getRealPath()),
+                OutputInterface::VERBOSITY_VERBOSE
+            );
             $patches = $parser->findPatches($file->getContents());
-            $output->writeln(print_r($patches, TRUE));
+            $output->writeln(print_r($patches, true));
         }
     }
 }

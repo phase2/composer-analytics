@@ -19,5 +19,5 @@ class Factory
             default:
                 throw new \LogicException(sprintf('Invalid parser type: %s', $type));
         }
-     }
+    }
 }

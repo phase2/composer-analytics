@@ -2,11 +2,11 @@
 
 namespace spec\Phase2\ComposerAnalytics\Patch;
 
-use Phase2\ComposerAnalytics\Patch\Patch;
+use Phase2\ComposerAnalytics\Patch\DrupalOrgPatch;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
-class PatchSpec extends ObjectBehavior
+class DrupalOrgPatchSpec extends ObjectBehavior
 {
     function let()
     {
@@ -15,7 +15,7 @@ class PatchSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(Patch::class);
+        $this->shouldHaveType(DrupalOrgPatch::class);
     }
 
     function it_gets_the_project()

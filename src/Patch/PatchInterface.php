@@ -8,13 +8,11 @@ namespace Phase2\ComposerAnalytics\Patch;
 interface PatchInterface
 {
     /**
-     * Retrieve the appropriate issue link.
-     *
-     * This is expected to be the actual link to the issue, not the patch's raw uri.
+     * Get the patch URI.
      *
      * @return string
      */
-    public function getIssueUri();
+    public function getPatchUri();
 
     /**
      * Get the patch project.

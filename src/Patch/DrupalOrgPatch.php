@@ -2,12 +2,22 @@
 
 namespace Phase2\ComposerAnalytics\Patch;
 
-class Patch implements PatchInterface
+use Phase2\ComposerAnalytics\Patch\Exception\NoIssueFoundException;
+
+/**
+ * Drupal.org patch handling.
+ */
+class DrupalOrgPatch implements PatchInterface, HasIssueUriInterface
 {
     /**
      * Regex for drupal.org patch URIs.
      */
     const DRUPAL_ORG_ISSUE_FROM_PATCH = '@(\d+)([_-]\d+)?@';
+
+    /**
+     * URL template for drupal.org issues.
+     */
+    const URL_TEMPLATE = 'https://www.drupal.org/node/%s';
 
     /**
      * The patch description.
@@ -32,6 +42,10 @@ class Patch implements PatchInterface
 
     /**
      * Constructs a patch object.
+     *
+     * @param string $project
+     * @param string $uri
+     * @param string $description
      */
     public function __construct($project, $uri, $description)
     {
@@ -45,7 +59,12 @@ class Patch implements PatchInterface
      */
     public function getIssueUri()
     {
-        return $this->findIssueUri();
+        if (preg_match(static::DRUPAL_ORG_ISSUE_FROM_PATCH, $this->rawUri, $matches)) {
+            $issue_number = $matches[1];
+            return sprintf(static::URL_TEMPLATE, $issue_number);
+        }
+
+        throw new NoIssueFoundException(sprintf('No issue URI could be extracted from the patch: %s.', $this->rawUri));
     }
 
     /**
@@ -69,9 +88,13 @@ class Patch implements PatchInterface
      */
     protected function findIssueUri()
     {
-        if (preg_match(static::DRUPAL_ORG_ISSUE_FROM_PATCH, $this->rawUri, $matches)) {
-            $issue_number = $matches[1];
-            return 'https://www.drupal.org/node/' . $issue_number;
-        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPatchUri()
+    {
+        return $this->rawUri;
     }
 }

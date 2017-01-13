@@ -2,7 +2,7 @@
 
 namespace Phase2\ComposerAnalytics\Parser;
 
-use Phase2\ComposerAnalytics\Patch\Patch;
+use Phase2\ComposerAnalytics\Patch\DrupalOrgPatch;
 
 class Json implements ParserInterface
 {
@@ -18,7 +18,7 @@ class Json implements ParserInterface
             foreach ($contents->extra->patches as $project => $patches) {
                 var_dump($patches);
                 foreach ($patches as $description => $uri) {
-                    $found_patches[] = new Patch($project, $uri, $description);
+                    $found_patches[] = new DrupalOrgPatch($project, $uri, $description);
                 }
             }
         }
