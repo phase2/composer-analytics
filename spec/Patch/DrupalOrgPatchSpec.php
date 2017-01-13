@@ -28,6 +28,11 @@ class DrupalOrgPatchSpec extends ObjectBehavior
         $this->getDescription()->shouldReturn('description');
     }
 
+    function it_gets_the_raw_uri()
+    {
+        $this->getPatchUri()->shouldReturn('http://www.drupal.org/files/foo-12345-02.patch');
+    }
+
     function it_calculates_a_uri()
     {
         $this->getIssueUri()->shouldReturn('https://www.drupal.org/node/12345');
