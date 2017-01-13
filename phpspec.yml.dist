@@ -1,0 +1,4 @@
+suites:
+    default:
+        namespace: Phase2\ComposerAnalytics
+        psr4_prefix: Phase2\ComposerAnalytics

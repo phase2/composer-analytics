@@ -9,7 +9,8 @@
         }
     ],
     "require": {
-        "symfony/console": "^3.1"
+        "symfony/console": "^3.1",
+        "symfony/finder": "^3.2"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -28,10 +29,12 @@
         "test": [
             "composer validate --no-interaction",
             "parallel-lint src tests",
+            "phpspec run",
             "phpunit --log-junit=reports/unitreport.xml --coverage-text --coverage-html=reports/coverage --coverage-clover=reports/coverage.xml",
             "phpcs --encoding=utf-8 --standard=PSR2 --report-checkstyle=reports/checkstyle-phpcs.xml --report-full --extensions=php src/* tests/*"
         ]
     },
+    "bin": ["bin/composer-analyze"],
     "extra": {
         "branch-alias": {
             "dev-master": "1.0.x-dev"
