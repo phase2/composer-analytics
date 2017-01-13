@@ -17,8 +17,8 @@ class FactorySpec extends ObjectBehavior
 
     function it_returns_a_parser()
     {
-        $this->get('json')->shouldImplement(ParserInterface::class);
-        $this->get('json')->shouldHaveType(Json::class);
+        $this->get('composer.json')->shouldImplement(ParserInterface::class);
+        $this->get('composer.json')->shouldHaveType(Json::class);
     }
 
     function it_throws_invalid_types()

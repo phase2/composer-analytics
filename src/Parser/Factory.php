@@ -13,7 +13,7 @@ class Factory
     public function get($type)
     {
         switch ($type) {
-            case 'json':
+            case 'composer.json':
                 return new Json();
 
             default:

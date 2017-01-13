@@ -2,11 +2,13 @@
 
 namespace Phase2\ComposerAnalytics;
 
+use Phase2\ComposerAnalytics\Parser\Factory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 class AnalyzeCommand extends Command
 {
@@ -37,7 +39,20 @@ class AnalyzeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $type = $input->getOption('type') ?: 'composer.json';
+        $finder = new Finder();
+        $finder->files();
+        $finder->name($type);
+
+        $parser_factory = new Factory();
+        $parser = $parser_factory->get($type);
+
         $directory = realpath($input->getArgument('directory'));
-        $output->writeln(sprintf('Scanning for files in %s.', $directory), OutputInterface::VERBOSITY_VERBOSE);
+        $output->writeln(sprintf('<info>Scanning for %s files in %s.</info>', $type, $directory), OutputInterface::VERBOSITY_VERBOSE);
+        foreach ($finder->in($directory) as $file) {
+            $output->writeln(sprintf('<info>Found %s file.</info>', $file->getRealPath()), OutputInterface::VERBOSITY_VERBOSE);
+            $patches = $parser->findPatches($file->getContents());
+            $output->writeln(print_r($patches, TRUE));
+        }
     }
 }
