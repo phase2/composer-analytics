@@ -32,7 +32,8 @@ class AnalyzeCommand extends Command
                 'type',
                 't',
                 InputOption::VALUE_OPTIONAL,
-                'File type to process. Defaults to composer.json'
+                'File type to process (either `composer` or `make`). Defaults to composer.json',
+                'composer'
             );
     }
 
@@ -41,9 +42,8 @@ class AnalyzeCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $type = $input->getOption('type') ?: 'composer.json';
-        $parser_factory = new Factory();
-        $parser = $parser_factory->get($type);
+        $type = $input->getOption('type');
+        $parser = Factory::get($type);
 
         $finder = new Finder();
         $finder->files();
@@ -63,7 +63,7 @@ class AnalyzeCommand extends Command
             $patches += $parser->findPatches($file->getContents());
         }
         if (empty($patches)) {
-            $output->writeln(sprintf('<warning>No patches found in %s.', $directory));
+            $output->writeln(sprintf('<comment>No patches found in %s.</comment>', $directory));
             return 0;
         }
 

@@ -11,7 +11,8 @@
     "require": {
         "symfony/console": "^3.1",
         "symfony/finder": "^3.2",
-        "league/csv": "^8.1"
+        "league/csv": "^8.1",
+        "symfony/yaml": "^3.2"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
@@ -32,7 +33,7 @@
             "parallel-lint src tests",
             "phpspec run",
             "phpunit --log-junit=reports/unitreport.xml --coverage-text --coverage-html=reports/coverage --coverage-clover=reports/coverage.xml",
-            "phpcs --encoding=utf-8 --standard=PSR2 --report-checkstyle=reports/checkstyle-phpcs.xml --report-full --extensions=php src/*"
+            "phpcs --encoding=utf-8 --standard=./phpcs-ruleset.xml --report-checkstyle=reports/checkstyle-phpcs.xml --report-full --extensions=php src/*"
         ]
     },
     "bin": ["bin/composer-analyze"],

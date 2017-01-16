@@ -10,11 +10,14 @@ class Factory
      *
      * @return ParserInterface
      */
-    public function get($type)
+    public static function get($type)
     {
         switch ($type) {
-            case 'composer.json':
+            case 'composer':
                 return new ComposerJson();
+
+            case 'make':
+                return new DrushMake();
 
             default:
                 throw new \LogicException(sprintf('Invalid parser type: %s', $type));

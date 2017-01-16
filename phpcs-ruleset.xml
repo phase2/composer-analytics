@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="phase2/composer-analytics">
+  <description>PHP CodeSniffer configuration Composer Analytics.</description>
+  <file>./src</file>
+  <rule ref="PSR2"></rule>
+  <!--Exclude third party code.-->
+  <exclude-pattern>./src/Parser/Drush/*</exclude-pattern>
+</ruleset>
