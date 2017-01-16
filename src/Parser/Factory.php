@@ -14,7 +14,7 @@ class Factory
     {
         switch ($type) {
             case 'composer.json':
-                return new Json();
+                return new ComposerJson();
 
             default:
                 throw new \LogicException(sprintf('Invalid parser type: %s', $type));

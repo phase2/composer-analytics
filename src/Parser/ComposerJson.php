@@ -2,9 +2,9 @@
 
 namespace Phase2\ComposerAnalytics\Parser;
 
-use Phase2\ComposerAnalytics\Patch\DrupalOrgPatch;
+use Phase2\ComposerAnalytics\Patch\Factory as PatchFactory;
 
-class Json implements ParserInterface
+class ComposerJson implements ParserInterface
 {
     /**
      * {@inheritdoc}
@@ -18,7 +18,7 @@ class Json implements ParserInterface
             foreach ($contents->extra->patches as $project => $patches) {
                 foreach ($patches as $description => $uri) {
                     // @todo Use a factory to determine patch type.
-                    $found_patches[] = new DrupalOrgPatch($project, $uri, $description);
+                    $found_patches[] = PatchFactory::getPatch($project, $uri, $description);
                 }
             }
         }
