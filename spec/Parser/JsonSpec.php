@@ -12,4 +12,9 @@ class JsonSpec extends ObjectBehavior
     {
         $this->shouldHaveType(Json::class);
     }
+
+    function it_has_a_pattern()
+    {
+        $this->getPattern()->shouldReturn('composer.json');
+    }
 }

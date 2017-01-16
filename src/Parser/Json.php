@@ -16,13 +16,21 @@ class Json implements ParserInterface
 
         if (isset($contents->extra->patches)) {
             foreach ($contents->extra->patches as $project => $patches) {
-                var_dump($patches);
                 foreach ($patches as $description => $uri) {
+                    // @todo Use a factory to determine patch type.
                     $found_patches[] = new DrupalOrgPatch($project, $uri, $description);
                 }
             }
         }
 
         return $found_patches;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPattern()
+    {
+        return 'composer.json';
     }
 }
