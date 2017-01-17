@@ -5,12 +5,20 @@ namespace Phase2\ComposerAnalytics\Analyze;
 use Phase2\ComposerAnalytics\Patch\Exception\NoIssueFoundException;
 use Phase2\ComposerAnalytics\Patch\HasIssueUriInterface;
 use Phase2\ComposerAnalytics\Patch\PatchInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Patch analyzer.
  */
 class Patches
 {
+    /**
+     * The command output.
+     *
+     * @var OutputInterface
+     */
+    protected $output;
+
     /**
      * Report header.
      */
@@ -29,6 +37,16 @@ class Patches
      * @var PatchInterface[]
      */
     protected $patches = [];
+
+    /**
+     * Patches constructor.
+     *
+     * @param OutputInterface $output
+     */
+    public function __construct(OutputInterface $output)
+    {
+        $this->output = $output;
+    }
 
     /**
      * Set patches to analyze.
@@ -59,11 +77,13 @@ class Patches
     {
         $analysis = [static::$header];
 
+        $bad_patches = [];
         foreach ($this->patches as $patch) {
             if ($patch instanceof HasIssueUriInterface) {
                 try {
                     $issue_uri = $patch->getIssueUri();
                 } catch (NoIssueFoundException $e) {
+                    $bad_patches[] = $patch->getPatchUri();
                     $issue_uri = static::NO_ISSUE_URI;
                 }
             } else {
@@ -76,6 +96,16 @@ class Patches
                 $patch->getPatchUri(),
                 $patch->getDescription(),
             ];
+        }
+
+        if (!empty($bad_patches)) {
+            $this->output->writeln(
+                sprintf(
+                    '<comment>Found %s remote patches with no issue number associated:</comment>',
+                    count($bad_patches)
+                )
+            );
+            $this->output->write(sprintf("<comment>\n    * %s</comment>\n\n", implode("\n    * ", $bad_patches)));
         }
 
         // @todo Some sort of sorting, and potentially aggregation.

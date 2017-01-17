@@ -7,9 +7,15 @@ use Phase2\ComposerAnalytics\Patch\DrupalOrgPatch;
 use Phase2\ComposerAnalytics\Patch\GithubPatch;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class PatchesSpec extends ObjectBehavior
 {
+    function let(OutputInterface $output)
+    {
+        $this->beConstructedWith($output);
+    }
+
     function it_is_initializable()
     {
         $this->shouldHaveType(Patches::class);

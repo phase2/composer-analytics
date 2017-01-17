@@ -3,6 +3,7 @@
 namespace Phase2\ComposerAnalytics\Tests\Analyze;
 use Phase2\ComposerAnalytics\Analyze\Patches;
 use Phase2\ComposerAnalytics\Tests\GeneratePatchesTrait;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Test the patch analyzer.
@@ -26,7 +27,9 @@ class PatchesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->patchAnalyzer = new Patches();
+
+        $output = $this->prophesize(OutputInterface::class)->reveal();
+        $this->patchAnalyzer = new Patches($output);
         $this->patchAnalyzer->setPatches($this->generatePatches());
     }
 

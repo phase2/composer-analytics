@@ -67,7 +67,7 @@ class AnalyzeCommand extends Command
             return 0;
         }
 
-        $analyzer = new Patches();
+        $analyzer = new Patches($output);
         $analyzer->setPatches($patches);
         $analyzed = $analyzer->analyze();
 
