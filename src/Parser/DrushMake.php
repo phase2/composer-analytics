@@ -25,6 +25,9 @@ class DrushMake implements ParserInterface
         $found_patches = [];
 
         $contents = $this->parse($file);
+        if (!isset($contents['projects'])) {
+            return $found_patches;
+        }
         foreach ($contents['projects'] as $project_name => $project_data) {
             if (isset($project_data['patch'])) {
                 foreach ($project_data['patch'] as $description => $patch) {
