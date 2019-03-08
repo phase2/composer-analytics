@@ -4,6 +4,7 @@ namespace Phase2\ComposerAnalytics;
 
 use League\Csv\Writer;
 use Phase2\ComposerAnalytics\Analyze\Patches;
+use Phase2\ComposerAnalytics\Formatter\Factory as FormatterFactory;
 use Phase2\ComposerAnalytics\Parser\Factory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -34,6 +35,19 @@ class AnalyzeCommand extends Command
                 InputOption::VALUE_OPTIONAL,
                 'File type to process (either `composer` or `make`). Defaults to composer.json',
                 'composer'
+            )
+            ->addOption(
+                'format',
+                'f',
+                InputOption::VALUE_OPTIONAL,
+                'The output format (either `json` or `csv`). Defaults to csv',
+                'csv'
+            )
+            ->addOption(
+                'output',
+                'o',
+                InputOption::VALUE_OPTIONAL,
+                'The output location file path. Defaults to stdout'
             );
     }
 
@@ -49,7 +63,7 @@ class AnalyzeCommand extends Command
         $finder->files();
         $finder->name($parser->getPattern());
 
-        $directory = realpath($input->getArgument('directory'));
+        $directory = $input->getArgument('directory');
         $output->writeln(
             sprintf('<info>Scanning for %s files in %s.</info>', $type, $directory),
             OutputInterface::VERBOSITY_VERBOSE
@@ -71,15 +85,15 @@ class AnalyzeCommand extends Command
         $analyzer->setPatches($patches);
         $analyzed = $analyzer->analyze();
 
-        // @todo Make output format configurable.
-        // @todo Make output destination configurable.
-        if (!file_exists($directory . '/reports')) {
-            mkdir($directory . '/reports');
+        $formatted = FormatterFactory::get($input->getOption('format'))->format($analyzed);
+
+        if ($input->getOption('output')) {
+            file_put_contents($input->getOption('output'), $formatted);
+            $output->writeln(sprintf('<info>Report written to %s.</info>', $input->getOption('output')));
+        } else {
+            $output->writeln($formatted);
         }
-        $report = $directory . '/reports/patch-analysis.csv';
-        $csv = Writer::createFromFileObject(new \SplTempFileObject());
-        $csv->insertAll($analyzed);
-        file_put_contents($report, (string) $csv);
-        $output->writeln(sprintf('<info>Report written to %s.</info>', $report));
+
+        return 0;
     }
 }

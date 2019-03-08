@@ -1,6 +1,7 @@
 <?php
 
 namespace Phase2\ComposerAnalytics\Tests;
+
 use Phase2\ComposerAnalytics\Patch\Factory;
 
 /**
@@ -33,8 +34,7 @@ trait GeneratePatchesTrait
     protected function generatePatches()
     {
         $patches = [];
-        foreach (static::$patches as $data)
-        {
+        foreach (static::$patches as $data) {
             $patches[] = Factory::getPatch($data[0], $data[1], $data[2]);
         }
         return $patches;
