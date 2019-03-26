@@ -15,10 +15,9 @@ class GithubPatchTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider providerTestGetIssueUri
      */
-    public function testGetIssueUri($patch_uri, $expected, $exception = FALSE)
+    public function testGetIssueUri($patch_uri, $expected, $exception = false)
     {
-        if ($exception)
-        {
+        if ($exception) {
             $this->setExpectedException(NoIssueFoundException::class);
         }
         $patch = new GithubPatch('test_project', $patch_uri, 'test description');
@@ -31,12 +30,15 @@ class GithubPatchTest extends \PHPUnit_Framework_TestCase
     public function providerTestGetIssueUri()
     {
         return [
-            ['https://github.com/Gizra/message_subscribe/pull/64.diff', 'https://github.com/Gizra/message_subscribe/pull/64'],
-            ['https://github.com/Gizra/message_subscribe/pull/64.patch', 'https://github.com/Gizra/message_subscribe/pull/64'],
-            ['https://patch-diff.githubusercontent.com/raw/Gizra/message_subscribe/pull/64.diff', 'https://github.com/Gizra/message_subscribe/pull/64'],
-            ['https://patch-diff.githubusercontent.com/raw/Gizra/message_subscribe/pull/64.patch', 'https://github.com/Gizra/message_subscribe/pull/64'],
-            ['https://github.com/pull/file.diff', '', TRUE],
+            ['https://github.com/Gizra/message_subscribe/pull/64.diff',
+                'https://github.com/Gizra/message_subscribe/pull/64'],
+            ['https://github.com/Gizra/message_subscribe/pull/64.patch',
+                'https://github.com/Gizra/message_subscribe/pull/64'],
+            ['https://patch-diff.githubusercontent.com/raw/Gizra/message_subscribe/pull/64.diff',
+                'https://github.com/Gizra/message_subscribe/pull/64'],
+            ['https://patch-diff.githubusercontent.com/raw/Gizra/message_subscribe/pull/64.patch',
+                'https://github.com/Gizra/message_subscribe/pull/64'],
+            ['https://github.com/pull/file.diff', '', true],
         ];
     }
-
 }

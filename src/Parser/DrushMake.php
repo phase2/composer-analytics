@@ -42,7 +42,7 @@ class DrushMake implements ParserInterface
     /**
      * Determine YAML or INI format, and parse.
      *
-     * @param string $data
+     * @param  string $data
      * @return array
      *
      * @throws ParseException
