@@ -7,12 +7,12 @@
     </testsuite>
   </testsuites>
   <!-- Filter for coverage reports. -->
-  <filter>
-    <whitelist>
+  <coverage>
+    <include>
       <directory>src/</directory>
-    </whitelist>
-    <blacklist>
+    </include>
+    <exclude>
       <directory>vendor/</directory>
-    </blacklist>
-  </filter>
+    </exclude>
+  </coverage>
 </phpunit>
