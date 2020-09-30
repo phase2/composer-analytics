@@ -9,19 +9,20 @@
         }
     ],
     "require": {
-        "php": ">=7.0.8",
+        "php": ">=7.3",
         "ext-json": "*",
-        "symfony/console": "^3.1",
-        "symfony/finder": "^3.2",
-        "league/csv": "^8.1",
-        "symfony/yaml": "^3.2"
+        "symfony/console": "^5.1",
+        "symfony/finder": "^5.1",
+        "league/csv": "^9.6",
+        "symfony/yaml": "^5.1"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
-        "squizlabs/php_codesniffer": "^2.7",
-        "mikey179/vfsStream": "^1.6",
-        "jakub-onderka/php-parallel-lint": "^0.9.2",
-        "phpspec/phpspec": "^3.1"
+        "phpunit/phpunit": "^9.3",
+        "squizlabs/php_codesniffer": "^3.5",
+        "mikey179/vfsstream": "^1.6",
+        "jakub-onderka/php-parallel-lint": "^1.0",
+        "phpspec/phpspec": "^6.2",
+        "phpspec/prophecy-phpunit": "^2.0"
     },
     "autoload": {
         "psr-4": {"Phase2\\ComposerAnalytics\\": "src"}
@@ -30,12 +31,16 @@
         "psr-4": {"Phase2\\ComposerAnalytics\\Tests\\": "tests"}
     },
     "scripts": {
+        "lint": "parallel-lint src tests spec",
+        "spec": "phpspec run",
+        "phpunit":"phpunit --log-junit=reports/unitreport.xml --coverage-text --coverage-html=reports/coverage --coverage-clover=reports/coverage.xml",
+        "phpcs": "phpcs --encoding=utf-8 --standard=./phpcs-ruleset.xml --report-checkstyle=reports/checkstyle-phpcs.xml --report-full --extensions=php src/* tests/*",
         "test": [
             "composer validate --no-interaction",
-            "parallel-lint src tests spec",
-            "phpspec run",
-            "phpunit --log-junit=reports/unitreport.xml --coverage-text --coverage-html=reports/coverage --coverage-clover=reports/coverage.xml",
-            "phpcs --encoding=utf-8 --standard=./phpcs-ruleset.xml --report-checkstyle=reports/checkstyle-phpcs.xml --report-full --extensions=php src/* tests/*"
+            "@lint",
+            "@spec",
+            "@phpunit",
+            "@phpcs"
         ]
     },
     "bin": ["bin/composer-analyze"],

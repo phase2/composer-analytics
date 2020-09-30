@@ -4,6 +4,8 @@ namespace Phase2\ComposerAnalytics\Tests\Analyze;
 
 use Phase2\ComposerAnalytics\Analyze\Patches;
 use Phase2\ComposerAnalytics\Tests\GeneratePatchesTrait;
+use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -11,9 +13,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  *
  * @coversDefaultClass \Phase2\ComposerAnalytics\Analyze\Patches
  */
-class PatchesTest extends \PHPUnit_Framework_TestCase
+class PatchesTest extends TestCase
 {
     use GeneratePatchesTrait;
+    use ProphecyTrait;
 
     /**
      * Patch analyzer.
@@ -25,7 +28,7 @@ class PatchesTest extends \PHPUnit_Framework_TestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         parent::setUp();
 

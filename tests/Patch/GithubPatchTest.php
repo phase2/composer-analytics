@@ -4,11 +4,12 @@ namespace Phase2\ComposerAnalytics\Tests\Patch;
 
 use Phase2\ComposerAnalytics\Patch\Exception\NoIssueFoundException;
 use Phase2\ComposerAnalytics\Patch\GithubPatch;
+use PHPUnit\Framework\TestCase;
 
 /**
  * @coversDefaultClass \Phase2\ComposerAnalytics\Patch\GithubPatch
  */
-class GithubPatchTest extends \PHPUnit_Framework_TestCase
+class GithubPatchTest extends TestCase
 {
     /**
      * @covers ::getIssueUri
@@ -18,7 +19,7 @@ class GithubPatchTest extends \PHPUnit_Framework_TestCase
     public function testGetIssueUri($patch_uri, $expected, $exception = false)
     {
         if ($exception) {
-            $this->setExpectedException(NoIssueFoundException::class);
+            $this->expectException(NoIssueFoundException::class);
         }
         $patch = new GithubPatch('test_project', $patch_uri, 'test description');
         $this->assertEquals($expected, $patch->getIssueUri());
